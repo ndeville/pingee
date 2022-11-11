@@ -4,6 +4,11 @@ import time
 import speedtest
 import csv
 
+from dotenv import load_dotenv
+load_dotenv()
+USER = os.getenv("USER")
+LOG_PATH = os.getenv("LOG_PATH")
+
 date = f"{datetime.now().strftime('%y%m%d')}"
 
 test = True
@@ -11,7 +16,7 @@ v = True # verbose mode
 
 tests_to_run = 3
 threads = 1 # 1 simulates a typical file transfer, else None
-log_file = '/Users/nic/Python/pingee/log.csv'
+log_file = LOG_PATH
 
 count = 0
 
