@@ -1,105 +1,58 @@
 from datetime import datetime
 import os
-print("----------")
-ts_file = f"{datetime.now().strftime('%y%m%d-%H%M')}"
-ts_db = f"{datetime.now().strftime('%Y-%m-%d %H:%M')}"
-ts_time = f"{datetime.now().strftime('%H:%M:%S')}"
-print(f"{ts_time} starting {os.path.basename(__file__)}")
 import time
-start_time = time.time()
+import speedtest
+import csv
 
-from dotenv import load_dotenv
-load_dotenv()
-USER = os.getenv("USER")
-
-import sys
-sys.path.append(f"/Users/{USER}/Python/indeXee")
-
-# import my_utils
-# import grist_BB
-# import grist_PE
-# import dbee
-
-from inspect import currentframe
-def get_linenumber():
-    """
-    print line numbers with f"{get_linenumber()}"
-    """
-    cf = currentframe()
-    return cf.f_back.f_lineno
-
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
-
-count = 0
-count_row = 0
+date = f"{datetime.now().strftime('%y%m%d')}"
 
 test = True
 v = True # verbose mode
 
-print(f"{os.path.basename(__file__)} boilerplate loaded -----------\n")
-####################
-# testing speedtest-cli
+tests_to_run = 3
+threads = 1 # 1 simulates a typical file transfer, else None
+log_file = '/Users/nic/Python/pingee/log.csv'
 
-import speedtest
+count = 0
 
-servers = []
-# If you want to test against a specific server
-# servers = [1234]
-
-threads = None
-# If you want to use a single threaded test
-# threads = 1
-# or
-# threads = None
-
-# s = speedtest.Speedtest()
-
-# get_servers = s.get_servers(servers)
-# print(f"\n#{get_linenumber()} {get_servers=}")
-# get_best_server = s.get_best_server()
-# print(f"\n#{get_linenumber()} {get_best_server=}")
-# download = s.download(threads=threads)
-# print(f"\n#{get_linenumber()} {download=}")
-# s.upload(threads=threads)
-
-# share = s.results.share()
-# print(f"\n#{get_linenumber()} {share=}")
-# results_dict = s.results.dict()
-# print(f"\n#{get_linenumber()} {results_dict=}")
-
-def test_speed(count, threads=None):
+def test_speed(count, threads=None, servers=[]):
+    global date
     start_test_time = time.time()
     s = speedtest.Speedtest()
     # s.get_servers(servers)
-    s.get_best_server()
-    download = s.download(threads=threads)
-    download_mbps = f"{round(download / 1000000, 2)} Mbit/s"
-    run_time = round((time.time() - start_test_time), 1)
-    print(f"run#{count} [{datetime.now().strftime('%H:%M:%S')}] {download_mbps} ({run_time})")
-    return download
+    try:
+        s.get_best_server()
+        download = s.download(threads=threads)
+        download_mbps = f"{round(download / 1000000, 2)} Mbit/s"
+        run_time = round((time.time() - start_test_time), 1)
+        timestamp = datetime.now().strftime('%H:%M:%S')
+        print(f"#{count} [{timestamp}] {download_mbps} ({run_time}s test time)")
 
-for x in range(0,3):
+        with open(log_file, 'a', newline='', encoding='utf-8') as i:
+            writer = csv.writer(i, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
+            if threads == None:
+                threads = 'multi'
+            writer.writerow([date, timestamp, int(download), download_mbps, threads, run_time, "OK"])
+
+        return download
+
+    except Exception as e:
+        timestamp = datetime.now().strftime('%H:%M:%S')
+        run_time = round((time.time() - start_test_time), 1)
+        error_message = f"ERROR: {e}"
+        with open(f"log.csv", 'a', newline='', encoding='utf-8') as i:
+            writer = csv.writer(i, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
+            if threads == None:
+                threads = 'multi'
+            writer.writerow([date, timestamp, "ERROR", "ERROR", threads, run_time, error_message])
+
+        print(error_message)
+
+        return "ERROR"
+
+print(f"\nStarting speed test with {tests_to_run} runs (threads={threads})...\n")
+
+for x in range(0, tests_to_run):
     count += 1
-    print(count)
-    test_speed()
-
-
-
-########################################################################################################
-
-if __name__ == '__main__':
-    print()
-    print()
-    print('-------------------------------')
-    print(f"{os.path.basename(__file__)}")
-    print()
-    print(f"{count=}")
-    print()
-    print('-------------------------------')
-    run_time = round((time.time() - start_time), 1)
-    if run_time > 60:
-        print(f'{os.path.basename(__file__)} finished in {run_time/60} minutes.')
-    else:
-        print(f'{os.path.basename(__file__)} finished in {run_time}s.')
-    print()
+    test_speed(count, threads=threads)
+print()
