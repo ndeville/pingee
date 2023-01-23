@@ -28,7 +28,7 @@ def test_speed(count, threads=None, servers=[]):
     try:
         s.get_best_server()
         download = s.download(threads=threads)
-        download_mbps = f"{round(download / 1000000, 2)} Mbit/s"
+        download_mbps = f"{round(download / 1000000, 2)} Mb/s"
         run_time = round((time.time() - start_test_time), 1)
         timestamp = datetime.now().strftime('%H:%M:%S')
         print(f"#{count} [{timestamp}] {download_mbps} ({run_time}s test time)")

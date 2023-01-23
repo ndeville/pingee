@@ -1,12 +1,10 @@
-# pingee
-
-Internet Connection Monitoring Script
+# pingee - Internet Connection Monitoring Script
 
 Last update: 11th Nov '22
 
 ## Speed Test
 
-: currently using the `speedtest-cli` Python library, looping download tests.
+currently using the `speedtest-cli` Python library, looping download tests.
 
 Variables:   
 
@@ -18,7 +16,7 @@ log_file = '/path/to/log.csv'
 
 prints as:   
 
-``` zsh
+``` shell
 Starting speed test with 3 runs (threads=1)...
 
 #1 [10:19:44] 60.85 Mbit/s (11.3s test time)
