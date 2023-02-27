@@ -1,6 +1,6 @@
-### Testing best approach for a continuous ping test to monitor connectivity
+### Working code for pinging a list of hosts every x second
 
-from ping3 import ping, verbose_ping
+from ping3 import ping
 import time
 from datetime import datetime
 print("----------\n")
