@@ -48,11 +48,11 @@ for i in range(0,loops): # 14400 seconds in 24h
         else:
             p = '-'
             if hostname == 'OpenDNS':
-                print(f"{i}/{loops} {datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t{p}")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t{p}")
             if hostname == 'Cloudflare':
-                print(f"{i}/{loops} {datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t{p}")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t{p}")
             if hostname == 'Google':
-                print(f"{i}/{loops} {datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t\t{p}")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t\t{p}")
 
             log_message(f"\n{datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}: {p}")
 
