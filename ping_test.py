@@ -11,6 +11,8 @@ ping_wait = 1 # in seconds, as integer
 
 log_file = '/Users/nic/Python/pingee/log/log.txt'
 
+ts_db = f"{datetime.now().strftime('%Y-%m-%d %H:%M')}"
+
 hostnames = {
             '208.67.222.222': 'OpenDNS', # OpenDNS
             '208.67.220.220': 'OpenDNS', # OpenDNS  
@@ -39,20 +41,20 @@ for i in range(0,loops): # 14400 seconds in 24h
             p_format = round(p*1000, 2)   
 
             if hostname == 'OpenDNS':
-                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t✅\t{host}/{hostname}\t{p_format}ms")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\t✅\t{host}/{hostname}\t{p_format}ms")
             if hostname == 'Cloudflare':
-                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t✅\t{host}/{hostname}\t{p_format}ms")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\t✅\t{host}/{hostname}\t{p_format}ms")
             if hostname == 'Google':
-                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t✅\t{host}/{hostname}\t\t{p_format}ms")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\t✅\t{host}/{hostname}\t\t{p_format}ms")
 
         else:
             p = '-'
             if hostname == 'OpenDNS':
-                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t{p}")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\t❌\t{host}/{hostname}\t{p}")
             if hostname == 'Cloudflare':
-                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t{p}")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\t❌\t{host}/{hostname}\t{p}")
             if hostname == 'Google':
-                print(f"{i}/{loops}\t{datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}\t\t{p}")
+                print(f"{i}/{loops}\t{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\t❌\t{host}/{hostname}\t\t{p}")
 
             log_message(f"\n{datetime.now().strftime('%H:%M:%S')}\t❌\t{host}/{hostname}: {p}")
 
