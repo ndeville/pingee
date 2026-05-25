@@ -9,7 +9,7 @@ run_time = 24 # in hours, as integer
 
 ping_wait = 1 # in seconds, as integer
 
-log_file = '/Users/nic/Python/pingee/log/log.txt'
+log_file = '/Users/nic/py/pingee/log/log.txt'
 
 ts_db = f"{datetime.now().strftime('%Y-%m-%d %H:%M')}"
 
